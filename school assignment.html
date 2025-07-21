@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oveto Nuels Foods</title>
+  <style>
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #4caf50, #ff9800, #f44336);
+      color: white;
+      text-align: center;
+      padding: 1em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .logo-title img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid white;
+      object-fit: cover;
+    }
+
+    .logo-title h1 {
+      font-size: 2.5em;
+      margin: 0;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    nav {
+      text-align: center;
+      padding: 1em;
+      background: #eeeeee;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    #searchInput {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border: 2px solid green;
+      border-radius: 8px;
+    }
+
+    #noResults {
+      color: red;
+      display: none;
+    }
+
+    .menu-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .menu-item {
+      background: #fefefe;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .menu-item:hover {
+      transform: scale(1.03);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .menu-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .menu-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .menu-info h3 {
+      margin: 0 0 8px;
+      color: #f44336;
+    }
+
+    .price {
+      color: #4caf50;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin: 5px 0 10px;
+    }
+
+    .chef-photo {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-top: 2px solid #eee;
+      margin-top: 10px;
+    }
+
+    #menu-table {
+      padding: 30px;
+      background: #fffef7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    #about, #order {
+      padding: 30px;
+      background: #f8f8f8;
+      text-align: center;
+    }
+
+    #about h2, #order h2 {
+      color: #ff5722;
+      margin-bottom: 15px;
+    }
+
+    #about p, #order p {
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #4caf50;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 1em;
+    }
+
+    .about-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid green;
+      object-fit: cover;
+      margin: 15px auto;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .logo-title h1 { font-size: 1.8em; }
+      .menu-item img, .chef-photo { height: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🌟 Header with Logo and Name in One Line -->
+<header>
+  <div class="logo-title">
+    <img src="logo.png" alt="Oveto Logo" />
+    <h1>Oveto's Foods</h1>
+  </div>
+  <p>Serving Up Tradition with a Side of Flavor</p>
+</header>
+
+<nav>
+  <a href="#menu">Dishes</a>
+  <a href="#menu-table">Menu & Prices</a>
+  <a href="#about">About</a>
+  <a href="#order">Order</a>
+</nav>
+
+<!-- 🔍 Search Section -->
+<section style="text-align:center; margin: 20px;">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search for a dish..."
+    oninput="filterDishes()"
+  />
+  <p id="noResults">Item not available. Please check again.</p>
+</section>
+
+<!-- 🥘 Food Display Section -->
+<section class="menu-section" id="menu">
+  <div class="menu-item">
+    <img src="jollof.png" alt="Jollof Rice">
+    <div class="menu-info">
+      <h3>Jollof Rice</h3>
+      
+      <img src="wika.png" class="chef-photo" alt="Chef Wika">
+      <p>Chef Wika</p>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <img src="egusi.png" alt="Egusi Soup">
+    <div class="menu-info">
+      <h3>Egusi Soup</h3>
+     
+      <img src="ekem.png" class="chef-photo" alt="Chef Ekem">
+      <p>Chef Ekem</p>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <img src="ogbono.png" alt="Ogbono Soup">
+    <div class="menu-info">
+      <h3>Ogbono Soup</h3>
+      
+      <img src="mrsmusa.png" class="chef-photo" alt="Chef Mrs Musa">
+      <p>Chef Mrs Musa</p>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <img src="chinese.png" alt="Chinese Dish">
+    <div class="menu-info">
+      <h3>Chinese Dish</h3>
+      
+      <img src="kang.png" class="chef-photo" alt="Chef Kang">
+      <p>Chef Kang</p>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <img src="pasta.png" alt="European Pasta">
+    <div class="menu-info">
+      <h3>European Pasta</h3>
+      
+      <img src="mario.png" class="chef-photo" alt="Chef Mario">
+      <p>Chef Mario</p>
+    </div>
+  </div>
+</section>
+
+<!-- 🧾 Menu Table -->
+<section id="menu-table">
+  <h2 style="text-align:center; color:#4caf50;">Full Menu & Prices</h2>
+  <table>
+    <tr><th>Dish</th><th>Chef</th><th>Price</th></tr>
+    <tr><td>Jollof Rice</td><td>Chef Wika</td><td>₦7,500</td></tr>
+    <tr><td>Egusi Soup</td><td>Chef Ekem</td><td>₦25,000</td></tr>
+    <tr><td>Ogbono Soup</td><td>Chef Musa</td><td>₦11,500</td></tr>
+    <tr><td>Chinese Dish</td><td>Chef Kang</td><td>₦45,000</td></tr>
+    <tr><td>European Pasta</td><td>Chef Mario</td><td>₦7,200</td></tr>
+  </table>
+</section>
+
+<!-- 🏠 About Section -->
+<section id="about">
+  <h2>About Oveto Nuels Foods</h2>
+  <img src="nuelsfood.png" class="about-photo" alt="Oveto">
+  <p>
+    Welcome to <strong>Oveto Nuels Foods</strong>, where tradition meets taste.
+    From local Nigerian favorites like Egusi and Jollof to international meals like Chinese dishes and European pasta,
+    we serve every plate with pride and passion cause we're the best at what we do😌.
+  </p>
+</section>
+
+<!-- 📦 Order Section -->
+<section id="order">
+  
+  <h3 style="color:#f44336;">📍 Location:</h3>
+  <p>Asaba, Before Dennis Osadebay University</p>
+  <p>Ready to enjoy our delicious dishes? We offer fast home delivery with a small fee.</p>
+  <h2 style="color: #4caf50;">Order Now</h2>
+  <a class="btn" href="https://wa.me/2349130496091" target="_blank">📲 Order via WhatsApp</a>
+</section>
+
+<!-- 🔍 Search Script -->
+<script>
+  function filterDishes() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const items = document.querySelectorAll(".menu-item");
+    let matchFound = false;
+
+    items.forEach(item => {
+      const name = item.querySelector("h3").textContent.toLowerCase();
+      if (name.includes(input)) {
+        item.style.display = "block";
+        matchFound = true;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    document.getElementById("noResults").style.display = matchFound ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>
